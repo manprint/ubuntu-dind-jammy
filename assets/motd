@@ -1,0 +1,23 @@
+
+-----------------------------
+Welcome to Ubuntu Jammy DIND!
+-----------------------------
+
+This container is for test purpose only!
+*** Do not use in Production! ***
+Developed by Manprint
+https://github.com/manprint/ubuntu-dind-jammy.git
+
+--------------
+App installed:
+--------------
+
+- dockerd
+- docker-compose
+- sshd
+- rclone
+- terraform
+- crond
+- webssh
+- zstd
+
