@@ -2,7 +2,7 @@
 		clean build build_no_cache pull publish \
 		create_persistence_folder create_persistence_volume destroy_all \
 		volume_prune down stop start up up_dev up_sysbox up_sysbox_dev \
-		connect ssh chrome_webssh firefox_webssh \
+		connect ssh chrome_webssh firefox_webssh chrome_cloudcmd firefox_cloudcmd \
 		context_create context_enable context_disable context_remove
 
 TITLE_MAKEFILE = Dind Ubuntu Jammy Supervisord with Ssh, Wssh, Terraform, Rclone and Cron
@@ -99,6 +99,7 @@ up: down create_persistence_folder create_persistence_volume ## Stop, remove and
 		--publish=2375:2375/tcp \
 		--publish=2260:22/tcp \
 		--publish=8888:8888/tcp \
+		--publish=8889:8889/tcp \
 		--volume=vol_${CNT_NAME}_docker:/var/lib/docker \
 		--volume=vol_${CNT_NAME}_ubuntu:/home/ubuntu \
 		${IMAGE}
@@ -110,7 +111,7 @@ up_dev: down ## (DEV) Stop, remove and start ubuntu-dind container privileged
 		--hostname=${CNT_HOSTNAME} \
 		--publish=2375:2375/tcp \
 		--publish=2260:22/tcp \
-		--publish=8888:8888/tcp \
+		--publish=8889:8889/tcp \
 		${IMAGE}
 
 up_sysbox: down create_persistence_folder create_persistence_volume ## Stop, remove and start ubuntu-dind container not privileged (sysbox)
@@ -120,7 +121,7 @@ up_sysbox: down create_persistence_folder create_persistence_volume ## Stop, rem
 		--hostname=${CNT_HOSTNAME} \
 		--publish=2375:2375/tcp \
 		--publish=2260:22/tcp \
-		--publish=8888:8888/tcp \
+		--publish=8889:8889/tcp \
 		--volume=vol_${CNT_NAME}_docker:/var/lib/docker \
 		--volume=vol_${CNT_NAME}_ubuntu:/home/ubuntu \
 		${IMAGE}
@@ -132,7 +133,7 @@ up_sysbox_dev: down ## (DEV) Stop, remove and start ubuntu-dind container not pr
 		--hostname=${CNT_HOSTNAME} \
 		--publish=2375:2375/tcp \
 		--publish=2260:22/tcp \
-		--publish=8888:8888/tcp \
+		--publish=8889:8889/tcp \
 		${IMAGE}
 
 ##@ Container Connection
@@ -152,6 +153,12 @@ chrome_webssh: ## Open chrome webssh
 
 firefox_webssh: ## Open firefox webssh
 	@firefox "http://localhost:8888/?hostname=localhost&username=ubuntu&password=dWJ1bnR1Cg==&title=$(CNT_NAME)" > /dev/null 2>&1 &
+
+chrome_cloudcmd: ## Open cloudcmd chrome
+	@google-chrome "http://localhost:8889" > /dev/null 2>&1 &
+
+firefox_cloudcmd: ## OPen cloudcmd firefox
+	@firefox "http://localhost:8889" > /dev/null 2>&1 &
 
 ##@ Docker context
 

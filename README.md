@@ -5,3 +5,10 @@
 ```
 curl -sSL https://raw.githubusercontent.com/manprint/ubuntu-dind-jammy/master/MakefileLite -o Makefile
 ```
+
+## Download dello script di commit
+
+```
+curl -sSL https://raw.githubusercontent.com/manprint/ubuntu-dind-jammy/master/commit.sh -o commit.sh
+chmod +x commit.sh
+```

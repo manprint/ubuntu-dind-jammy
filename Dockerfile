@@ -11,6 +11,8 @@ RUN apt update \
 	&& apt install -y ca-certificates python3-pip sshpass \
 		iptables supervisor sudo nano curl wget tree cron make fuse git rsync \
 		bash-completion telnet iputils-ping tzdata openssh-server unzip \
+		htop gnupg lsb-release iptables net-tools apt-utils locales openssl \
+		xz-utils pigz netstat-nat iproute2 unzip zip busybox p7zip-full software-properties-common \
 	&& ln -fs /usr/share/zoneinfo/Europe/Rome /etc/localtime \
 	&& dpkg-reconfigure -f noninteractive tzdata \
 	&& pip3 install --no-cache-dir webssh runlike \
@@ -33,6 +35,19 @@ RUN apt update \
 	&& git clone https://github.com/facebook/zstd.git /tmp/zstd \
 	&& cd /tmp/zstd && make && cd programs && cp -a zstd /usr/local/bin \
 	&& rm -rf /tmp/zstd \
+	&& apt-get clean \
+	&& apt-get autoremove -y \
+	&& apt-get autoclean \
+	&& rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+# Install cloudcmd
+RUN apt update -y \
+	&& curl -sL https://deb.nodesource.com/setup_16.x -o nodesource_setup.sh \
+	&& bash nodesource_setup.sh \
+	&& apt install nodejs \
+	&& npm i cloudcmd -g \
+	&& npm i gritty -g \
+	&& rm -f nodesource_setup.sh \
 	&& apt-get clean \
 	&& apt-get autoremove -y \
 	&& apt-get autoclean \

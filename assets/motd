@@ -12,12 +12,13 @@ https://github.com/manprint/ubuntu-dind-jammy.git
 App installed:
 --------------
 
-- dockerd
-- docker-compose
-- sshd
+- dockerd (port 2375)
+- docker-compose and docker-compose plugin
+- sshd (port 22)
 - rclone
 - terraform
 - crond
-- webssh
+- webssh (port 8888)
 - zstd
+- cloudcmd (port 8889)
 
