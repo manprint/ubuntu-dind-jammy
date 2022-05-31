@@ -46,7 +46,7 @@ build_no_cache: clean ## Build docker image no cache
 pull: ## Pull image
 	@docker pull $(IMAGE)
 
-publish: build_no_cache ## Push image
+publish: build ## Push image
 	@echo "$(RED)Create in repo folder the "github.token" file for publish image...$(RESET)"
 	echo ${GITHUB_CREDS} | docker login ghcr.io -u manprint --password-stdin
 	@docker push $(IMAGE)

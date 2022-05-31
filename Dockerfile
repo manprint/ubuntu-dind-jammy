@@ -5,6 +5,8 @@ LABEL mantainer="Manprint"
 SHELL ["/bin/bash", "-xo", "pipefail", "-c"]
 
 ENV DEBIAN_FRONTEND=noninteractive
+ARG TERRAFORM_VERSION="1.2.1"
+
 
 RUN apt update \
 	&& apt upgrade -y \
@@ -18,8 +20,6 @@ RUN apt update \
 	&& pip3 install --no-cache-dir webssh runlike \
 	&& curl -fsSL https://get.docker.com -o get-docker.sh \
 	&& sh get-docker.sh && rm -f get-docker.sh \
-	&& wget -O /usr/local/bin/docker-compose https://github.com/docker/compose/releases/download/v2.5.0/docker-compose-linux-x86_64 \
-	&& chmod +x /usr/local/bin/docker-compose \
 	&& mkdir /var/run/sshd \
 	&& sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' -i /etc/pam.d/sshd \
 	&& echo "export VISIBLE=now" >> /etc/profile \
@@ -29,9 +29,9 @@ RUN apt update \
 	&& echo "ubuntu ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers \
 	&& curl https://rclone.org/install.sh | sudo bash \
 	&& echo "user_allow_other" > /etc/fuse.conf && chmod 775 /etc/fuse.conf \
-	&& curl -O https://releases.hashicorp.com/terraform/1.1.9/terraform_1.1.9_linux_amd64.zip \
-	&& unzip terraform_1.1.9_linux_amd64.zip && mv terraform /usr/bin/ \
-	&& chmod +x /usr/bin/terraform && rm -f terraform_1.1.9_linux_amd64.zip \
+	&& curl -O https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip \
+	&& unzip terraform_${TERRAFORM_VERSION}_linux_amd64.zip && mv terraform /usr/bin/ \
+	&& chmod +x /usr/bin/terraform && rm -f terraform_${TERRAFORM_VERSION}_linux_amd64.zip \
 	&& git clone https://github.com/facebook/zstd.git /tmp/zstd \
 	&& cd /tmp/zstd && make && cd programs && cp -a zstd /usr/local/bin \
 	&& rm -rf /tmp/zstd \
